@@ -1,37 +1,23 @@
-import React, { useState } from "react";
+import React from "react";
 import InputBox from "@/components/InputBox";
 import TextArea from "@/components/TextArea";
 
 interface ThirdStepProps {
-    onInputChange: (data: ThirdStepData) => void;
-}
-
-export interface ThirdStepData {
-    title: string;
-    notes?: string;
+    isFormClear: boolean;
+    onInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void;
 }
 
 const ThirdStep: React.FunctionComponent<ThirdStepProps> = (props) => {
-    const { onInputChange } = props;
-    const data: ThirdStepData = {
-        title: "",
-        notes: ""
-    };
-
-    const handleInputChange = () => {
-        onInputChange(data);
-    }
+    const { isFormClear, onInputChange } = props;
 
     return <>
-        <InputBox labelText="TITLE" isClear={false}
-            onChange={(value) => {
-                data.title = value;
-                handleInputChange();
+        <InputBox name="title" placeholder="Write your title here..." labelText="TITLE" isClear={isFormClear}
+            onChange={(e) => {
+                onInputChange(e);
             }} />
-        <TextArea labelText="NOTES (OPTIONAL)" isClear={false}
-            onChange={(value) => {
-                data.notes = value;
-                handleInputChange();
+        <TextArea name="notes" placeholder="Write your notes here..." labelText="NOTES (OPTIONAL)" isClear={isFormClear}
+            onChange={(e) => {
+                onInputChange(e);
             }} />
     </>;
 }

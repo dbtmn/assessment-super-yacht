@@ -2,14 +2,15 @@ import React, { useState, useEffect } from "react";
 
 interface InputProps {
     id?: string;
+    name: string;
     placeholder?: string;
     labelText: string;
     isClear: boolean;
-    onChange: (value: string) => void;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const InputBox: React.FunctionComponent<InputProps> = (props) => {
-    const { id = "inputbox", placeholder = "", labelText, isClear, onChange } = props;
+    const { id = "inputbox", name, placeholder = "", labelText, isClear, onChange } = props;
 
     const [inputValue, setInput] = useState<string>("");
 
@@ -21,12 +22,12 @@ const InputBox: React.FunctionComponent<InputProps> = (props) => {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInput(e.target.value as string);
-        onChange(e.target.value as string);
+        onChange(e);
     }
 
-    return <div className="flex flex-col">
-        <label id={id}>{labelText}</label>
-        <input id={id} className="border border-black border-1" placeholder={placeholder} value={inputValue} onChange={handleChange} />
+    return <div className="flex flex-col mb-9">
+        <label id={id} className="text-xs uppercase font-bold">{labelText}</label>
+        <input name={name} id={id} className="px-5 py-2 border border-neutral-300 border-solid border-1 focus:border-black focus-visible:outline-none" placeholder={placeholder} value={inputValue} onChange={handleChange} />
     </div>
 }
 
