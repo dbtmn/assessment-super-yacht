@@ -2,12 +2,21 @@ import { useState } from 'react';
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import AddModal from "@/modules/AddModal";
+import SuccessModal from "@/modules/SuccessModal";
 import Button from "@/components/Button";
+import { ApiStatus } from "@/types/FormData";
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
-  const [isModalOpen, toggleModal] = useState<boolean>(false);
+  const [isAddModalOpen, toggleAddModal] = useState<boolean>(false);
+  const [isSuccessModalOpen, toggleSuccessModal] = useState<boolean>(false);
+
+  const handleAddResponse = (status: ApiStatus) => {
+    if (status) {
+      toggleSuccessModal(true);
+    }
+  }
 
   return (
     <>
@@ -19,9 +28,10 @@ export default function Home() {
           height={37}
           priority
         />
-        <Button onClick={() => toggleModal(true)}>Open Modal</Button>
+        <Button onClick={() => toggleAddModal(true)}>Open Modal</Button>
       </main>
-      <AddModal title="Add area" isModalOpen={isModalOpen} onCloseModal={() => toggleModal(false)} />
+      <AddModal title="Add area" isModalOpen={isAddModalOpen} onCloseModal={() => toggleAddModal(false)} onResponseAdd={(status) => handleAddResponse(status)} />
+      <SuccessModal isModalOpen={isSuccessModalOpen} onCloseModal={() => toggleSuccessModal(false)} />
     </>
   )
 }
